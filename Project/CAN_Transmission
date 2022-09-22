@@ -1,0 +1,86 @@
+#include <xc.h>
+#define __XTAL_FREQ 20000000
+void can_init();
+void sys_init();
+void set_baud_rate();        //function declaration
+void can_write1();
+void can_write2();
+void main()
+{
+   
+    sys_init();          //calling functions 
+    set_baud_rate();
+    can_init();
+    while(1)
+    {
+    can_write1();
+    for(unsigned int i=0;i<30000;i++);  
+     can_write2();
+     for(unsigned int i=0;i<30000;i++);
+    
+    }
+    }
+void sys_init()
+{
+    GIE = 1;
+    PEIE = 1;
+}
+void set_baud_rate()
+{
+    CANCON = 0x80;          //setting to configuration mode
+    //while(CANSTAT != 0x80); //checking status of configuration mode
+    BRGCON1 = 0xC1;         //setting baud rate according to value @speed 250kbps
+    BRGCON2 = 0xAE;
+    BRGCON3 = 0x45;
+    CANCON = 0x08;         //setting to normal mode
+}
+void can_init()
+{
+    TRISBbits.RB2 = 0;//Setting the pin as output
+    TRISBbits.RB3 = 1;//Setting the pin as output
+}
+void can_write1()
+{
+   
+    for(unsigned int i=0;i<5000;i++);
+    CANCON = 0x08;   //setting normal mode
+    
+    //while(CANSTAT != 0x08);
+    CIOCON = 0x20;  //setting control i/o register
+    TXB0SIDH = 0x0f;
+    TXB0SIDL = 0xe0;
+    TXB0DLC = 0x08;  //Setting data length code
+    TXB0D0 = 0x00;
+    TXB0D1 = 0x00;
+    TXB0D2 = 0x00;
+    TXB0D3 = 0x00;
+    TXB0D4 = 0x00;
+    TXB0D5 = 0xFF;
+    TXB0D6 = 0x00;
+    TXB0D7 = 0x00;
+    TXB0CON = 0x08;   //setting transmision request
+    
+}
+void can_write2()
+{
+   
+    for(unsigned int i=0;i<5000;i++);
+    for(unsigned int i=0;i<5000;i++);
+    CANCON = 0x08;
+    //while(CANSTAT != 0x08);
+    CIOCON = 0x20;
+    
+    TXB0SIDH = 0x0d;
+    TXB0SIDL = 0xe0;
+    TXB0DLC = 0x08;
+    TXB0D0 = 0x00;   //0-7 setting buffers
+    TXB0D1 = 0x00;
+    TXB0D2 = 0xFF;
+    TXB0D3 = 0x00;
+    TXB0D4 = 0x00;
+    TXB0D5 = 0X00;
+    TXB0D6 = 0x00;
+    TXB0D7 = 0x00;
+    TXB0CON = 0x08;
+    
+}
