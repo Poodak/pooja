@@ -1,0 +1,62 @@
+Basic Inheritance program:
+
+#include<iostream>
+using namespace std;
+
+class Father     //base class
+{
+	float salarty;
+    public:
+	int age;
+};
+class Son : public Father    //Derived class
+{
+    public:
+	void display()
+	{
+	  age=40;
+	  cout<<" My Father age is"<<age<<endl;
+	}
+};
+int main()
+{
+	Son s1;
+	s1.display();
+	return 0;
+}
+
+Function Overloading using c++
+
+#include <iostream>
+using namespace std;
+#define PI 3.14
+class function_area
+{
+public:
+void area(int x, int y)
+{
+	cout<<"area of rectangle is : "<<(x*y)<<endl;
+}
+
+void area(int a)
+{
+	cout<<"area of circle is : "<<(PI*a*a)<<endl;
+}
+
+void area(double x, double y)
+{
+	cout<<"area of triangle is : "<<(0.5*x*y)<<endl;
+}
+};
+int main()
+{
+	function_area e1;
+	e1.area(7,4);
+	e1.area(6);
+	e1.area(1.5,3.4);
+	return 0;
+}
+
+Output: area of rectangle is : 28
+area of circle is : 113.04
+area of triangle is : 2.55
